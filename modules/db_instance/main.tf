@@ -79,7 +79,7 @@ resource "aws_db_instance" "this" {
 
   lifecycle {
     ignore_changes = [
-      kms_key_id,
+      "kms_key_id",
     ]
   }
 }
