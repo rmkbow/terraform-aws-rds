@@ -28,7 +28,7 @@ resource "aws_db_instance" "this" {
   allocated_storage = "${var.allocated_storage}"
   storage_type      = "${var.storage_type}"
   storage_encrypted = "${var.storage_encrypted}"
-  kms_key_id        = "${var.storage_encrypted ? var.kms_key_id: ""}"
+  kms_key_id        = "${var.kms_key_id}"
   license_model     = "${var.license_model}"
 
   name                                = "${var.name}"
@@ -76,6 +76,12 @@ resource "aws_db_instance" "this" {
   deletion_protection = "${var.deletion_protection}"
 
   tags = "${merge(var.tags, map("Name", format("%s", var.identifier)))}"
+
+  lifecycle {
+    ignore_changes = [
+      kms_key_id,
+    ]
+  }
 }
 
 resource "aws_db_instance" "this_mssql" {
